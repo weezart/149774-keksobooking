@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Калашников](https://up.htmlacademy.ru/javascript/11/user/149774).
-* Наставник: [Дмитрий Донецки](https://htmlacademy.ru/profile/id497669).
+* Наставник: [Дмитрий Донецкий](https://htmlacademy.ru/profile/id497669).
 
 ---
 
