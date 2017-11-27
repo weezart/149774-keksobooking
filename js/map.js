@@ -38,6 +38,11 @@ var MIN_COORD_Y = 100;
 var MAX_COORD_Y = 500;
 var AFTER_COORD = 'px';
 
+var TYPE_MAP = {
+  flat: 'Квартира',
+  bungalo: 'Бунгало',
+  house: 'Дом',
+}
 
 var compareRandom = function () {
   return Math.random() - 0.5;
@@ -56,6 +61,14 @@ var leftHandZero = function (number) {
   return number;
 };
 
+var getTimeText = function (checkin, checkout) {
+  return 'Заезд после ' + checkin + ', выезд до ' + checkout;
+};
+
+var getCountText = function (rooms, guests) {
+  return rooms + ' комнаты для ' + guests + ' гостей';
+};
+
 var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
@@ -71,34 +84,15 @@ var renderCard = function (pin) {
 
   cardElement.querySelector('h3').textContent = pin.offer.title;
   cardElement.querySelector('p small').innerHTML = pin.offer.address;
-  cardElement.querySelector('.popup__price').innerHTML = pin.offer.price + AFTER_PRICE;
-  switch (pin.offer.type) {
-    case 'flat':
-      cardElement.querySelector('h4').textContent = 'Квартира';
-      break;
-    case 'bungalo':
-      cardElement.querySelector('h4').textContent = 'Бунгало';
-      break;
-    case 'house':
-      cardElement.querySelector('h4').textContent = 'Дом';
-      break;
-    default:
-      cardElement.querySelector('h4').textContent = 'Эксклюзивный тип жилья';
-      break;
-  }
-  cardElement.querySelector('.popup__rooms').textContent = pin.offer.rooms;
-  cardElement.querySelector('.popup__guests').textContent = pin.offer.guests;
-  cardElement.querySelector('.popup__checkin').textContent = pin.offer.checkin;
-  cardElement.querySelector('.popup__checkout').textContent = pin.offer.checkout;
-  cardElement.querySelector('.popup__description').textContent = pin.offer.description;
-  cardElement.querySelector('.popup__features').textContent = '';
-  if (pin.offer.features.length > 0) {
-    for (var f = 0; f < pin.offer.features.length; f++) {
-      var featureElement = document.createElement('li');
-      featureElement.className = 'feature feature--' + pin.offer.features[f];
-      cardElement.querySelector('.popup__features').appendChild(featureElement);
-    }
-  }
+  cardElement.querySelector('h4').textContent = TYPE_MAP[pin.offer.type] || DEFAULT_NAME;
+  cardElement.querySelector('.popup__price').innerHTML =
+    pin.offer.price + AFTER_PRICE;
+  cardElement.querySelector('p:nth-of-type(3)').textContent =
+    getCountText(pin.offer.rooms, pin.offer.guests);
+  cardElement.querySelector('p:nth-of-type(4)').textContent =
+    getTimeText(pin.offer.checkin, pin.offer.checkout);
+  cardElement.querySelector('p:nth-of-type(5)').textContent = pin.offer.description;
+
   cardElement.querySelector('img').src = pin.author.avatar;
 
   return cardElement;
