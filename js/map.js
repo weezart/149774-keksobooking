@@ -65,6 +65,18 @@ var getTimeText = function (checkin, checkout) {
   return 'Заезд после ' + checkin + ', выезд до ' + checkout;
 };
 
+var renderFeaturesList = function (features) {
+  var featuresFragment = document.createDocumentFragment();
+
+  features.forEach(function(feature) {
+    var listItem = document.createElement('li');
+    listItem.className = 'feature feature--' + feature;
+    featuresFragment.appendChild(listItem);
+  }
+
+  return featuresFragment;
+};
+
 var getCountText = function (rooms, guests) {
   return rooms + ' комнаты для ' + guests + ' гостей';
 };
@@ -92,7 +104,7 @@ var renderCard = function (pin) {
   cardElement.querySelector('p:nth-of-type(4)').textContent =
     getTimeText(pin.offer.checkin, pin.offer.checkout);
   cardElement.querySelector('p:nth-of-type(5)').textContent = pin.offer.description;
-
+  cardElement.querySelector('.popup__price').innerHTML = renderFeaturesList(pin.offer.features);
   cardElement.querySelector('img').src = pin.author.avatar;
 
   return cardElement;
