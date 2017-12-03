@@ -29,8 +29,9 @@ var MAX_ROOMS = 5;
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var AFTER_PRICE = '&#x20bd;/ночь';
+var NO_GUESTS = 0;
 var MIN_GUESTS = 1;
-var MAX_GUESTS = 10;
+var MAX_GUESTS = 3;
 var MIN_COORD_X = 300;
 var MAX_COORD_X = 900;
 var MIN_COORD_Y = 100;
@@ -267,4 +268,95 @@ mainMapPin.addEventListener('mouseup', function () {
       openPopup();
     }
   });
+});
+
+var inputAnnounceTitle = document.querySelector('#title');
+var inputAnnouncePrice = document.querySelector('#price');
+var inputAnnounceTimeIn = document.querySelector('#timein');
+var inputAnnounceTimeOut = document.querySelector('#timeout');
+var inputAnnounceType = document.querySelector('#type');
+var inputAnnounceRoomNumber = document.querySelector('#room_number');
+var inputAnnounceCapacity = document.querySelector('#capacity');
+
+inputAnnounceTitle.addEventListener('invalid', function () {
+  if (inputAnnounceTitle.validity.tooShort) {
+    inputAnnounceTitle.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+  } else if (inputAnnounceTitle.validity.tooLong) {
+    inputAnnounceTitle.setCustomValidity('Заголовок не должен превышать 100 символов');
+  } else if (inputAnnounceTitle.validity.valueMissing) {
+    inputAnnounceTitle.setCustomValidity('Обязательное поле');
+  } else {
+    inputAnnounceTitle.setCustomValidity('');
+  }
+});
+
+inputAnnounceTitle.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < target.minLength) {
+    target.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
+  } else if (target.value.length > target.maxLength) {
+    target.setCustomValidity('Заголовок не должен превышать 100 символов');
+  } else if (target.value.length === 0) {
+    target.setCustomValidity('Обязательное поле');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+inputAnnouncePrice.addEventListener('invalid', function () {
+  if (inputAnnouncePrice.validity.rangeUnderflow) {
+    inputAnnouncePrice.setCustomValidity('Минимальная цена ' + inputAnnouncePrice.min);
+  } else if (inputAnnouncePrice.validity.rangeOverflow) {
+    inputAnnouncePrice.setCustomValidity('Цена не должна превышать 1000000 руб.');
+  } else if (inputAnnouncePrice.validity.valueMissing) {
+    inputAnnouncePrice.setCustomValidity('Обязательное поле');
+  } else {
+    inputAnnouncePrice.setCustomValidity('');
+  }
+});
+
+inputAnnouncePrice.addEventListener('input', function (evt) {
+  var target = evt.target;
+  var targetValue = Number(target.value);
+  var minValue = Number(target.min);
+  var maxValue = Number(target.max);
+
+
+  if (targetValue < minValue) {
+    target.setCustomValidity('Минимальная цена ' + target.min);
+  } else if (targetValue > maxValue) {
+    target.setCustomValidity('Цена не должна превышать 1000000 руб.');
+  } else if (target.value === '') {
+    target.setCustomValidity('Обязательное поле');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+inputAnnounceTimeIn.addEventListener('change', function () {
+  inputAnnounceTimeOut.value = inputAnnounceTimeIn.value;
+});
+
+var PRICE_MAP = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
+inputAnnounceType.value = 'bungalo';
+
+inputAnnounceType.addEventListener('change', function () {
+  inputAnnouncePrice.min = PRICE_MAP[inputAnnounceType.value];
+});
+
+inputAnnounceCapacity.value = MIN_GUESTS;
+
+inputAnnounceRoomNumber.addEventListener('change', function () {
+  if (inputAnnounceRoomNumber.value !== '100') {
+    inputAnnounceCapacity.value =
+        getRandomArbitary(MIN_GUESTS, Number(inputAnnounceRoomNumber.value) + 1);
+  } else {
+    inputAnnounceCapacity.value = NO_GUESTS;
+  }
 });
