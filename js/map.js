@@ -21,9 +21,6 @@ var AVATAR_FILE_TYPE = '.png';
 var AVATAR_WIDTH = 46;
 var AVATAR_HEIGHT = 46;
 var AVATAR_HEIGHT_PLUS = 18;
-var ADDRESS_BEFORE_COORD = '{{';
-var ADDRESS_BETWEEN_COORD = '}}, {{';
-var ADDRESS_AFTER_COORD = '}}';
 var MIN_ROOMS = 1;
 var MAX_ROOMS = 5;
 var MIN_PRICE = 1000;
@@ -37,6 +34,7 @@ var MAX_COORD_X = 900;
 var MIN_COORD_Y = 100;
 var MAX_COORD_Y = 500;
 var AFTER_COORD = 'px';
+var DEFAULT_COORD = '595, 375';
 
 var TYPE_MAP = {
   flat: 'Квартира',
@@ -94,8 +92,7 @@ var dataPin = function (i) {
   };
   pin.offer = {
     'title': DEFAULT.titles[i],
-    'address': ADDRESS_BEFORE_COORD + pin.location.x +
-      ADDRESS_BETWEEN_COORD + pin.location.y + ADDRESS_AFTER_COORD,
+    'address': pin.location.x + ', ' + pin.location.y,
     'price': getRandomArbitary(MIN_PRICE, MAX_PRICE),
     'type': getRandom(DEFAULT.types),
     'rooms': getRandomArbitary(MIN_ROOMS, MAX_ROOMS),
@@ -236,7 +233,6 @@ for (var j = 0; j < DEFAULT.titles.length; j++) {
 
 var map = document.querySelector('.map');
 
-
 var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
 var pinsFragment = document.createDocumentFragment();
@@ -271,12 +267,15 @@ mainMapPin.addEventListener('mouseup', function () {
 });
 
 var inputAnnounceTitle = document.querySelector('#title');
+var inputAnnounceAdress = document.querySelector('#address');
 var inputAnnouncePrice = document.querySelector('#price');
 var inputAnnounceTimeIn = document.querySelector('#timein');
 var inputAnnounceTimeOut = document.querySelector('#timeout');
 var inputAnnounceType = document.querySelector('#type');
 var inputAnnounceRoomNumber = document.querySelector('#room_number');
 var inputAnnounceCapacity = document.querySelector('#capacity');
+
+inputAnnounceAdress.value = DEFAULT_COORD;
 
 inputAnnounceTitle.addEventListener('invalid', function () {
   if (inputAnnounceTitle.validity.tooShort) {
@@ -335,6 +334,10 @@ inputAnnouncePrice.addEventListener('input', function (evt) {
 
 inputAnnounceTimeIn.addEventListener('change', function () {
   inputAnnounceTimeOut.value = inputAnnounceTimeIn.value;
+});
+
+inputAnnounceTimeOut.addEventListener('change', function () {
+  inputAnnounceTimeIn.value = inputAnnounceTimeOut.value;
 });
 
 var PRICE_MAP = {
