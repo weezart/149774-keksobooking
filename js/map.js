@@ -241,7 +241,7 @@ var mapPins = document.querySelector('.map__pins');
 var mainMapPin = document.querySelector('.map__pin--main');
 var noticeForm = document.querySelector('.notice__form');
 var fieldNoticeForm = noticeForm.querySelectorAll('.notice__form fieldset');
-var currentPinNumber = -1;
+var currentPinNumber = 0;
 for (var k = 0; k < pins.length; k++) {
   pinsFragment.appendChild(renderPin(pins[k]));
   cardFragment.appendChild(renderCard(pins[k]));
