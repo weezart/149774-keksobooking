@@ -54,15 +54,15 @@
         fieldNoticeForm[i].disabled = false;
       }
 
-      window.pins.add(mapPin);
-      window.cards.add(mapPopup);
+      var pins = window.data.getPinsInfo();
+
+      window.pins.add(mapPin, pins);
+      window.cards.add(mapPopup, pins);
     };
 
-    mainMapPin.addEventListener('mouseup', function () {
-      if (!mapActive) {
-        pageActivation();
-        mapActive = true;
-      }
+    var firstActivation = function () {
+      pageActivation();
+      mapActive = true;
 
       mapPins.addEventListener('click', function (evt) {
         window.pins.find(evt.target, mapPin, mapPopup);
@@ -75,6 +75,48 @@
           openPopup();
         });
       });
+    };
+
+    mainMapPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+      //console.log(window.pins.getMainCoord());
+      mainMapPin.style.top = (mainMapPin.offsetTop - shift.y) + 'px';
+      mainMapPin.style.left = (mainMapPin.offsetLeft - shift.x) + 'px';
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+    mainMapPin.addEventListener('mouseup', function () {
+      if (!mapActive) {
+        firstActivation();
+      }
     });
   };
 

@@ -22,6 +22,9 @@
   var AVATAR_WIDTH = 46;
   var AVATAR_HEIGHT = 46;
   var AVATAR_HEIGHT_PLUS = 18;
+  var MAIN_PIN_WIDTH = 62;
+  var MAIN_PIN_HEIGHT = 62;
+  var MAIN_PIN_HEIGHT_PLUS = 17;
   var MIN_ROOMS = 1;
   var MAX_ROOMS = 5;
   var MIN_PRICE = 1000;
@@ -39,9 +42,8 @@
         'avatar': AVATAR_FILE_URL + window.utils.leftHandZero(i + 1) + AVATAR_FILE_TYPE
       },
       'location': {
-        'x': window.utils.getRandomNumber(MIN_COORD_X, MAX_COORD_X) - AVATAR_WIDTH / 2,
-        'y': window.utils.getRandomNumber(MIN_COORD_Y, MAX_COORD_Y) +
-            AVATAR_HEIGHT + AVATAR_HEIGHT_PLUS
+        'x': window.utils.getRandomNumber(MIN_COORD_X, MAX_COORD_X),
+        'y': window.utils.getRandomNumber(MIN_COORD_Y, MAX_COORD_Y)
       }
     };
     pin.offer = {
@@ -68,6 +70,16 @@
         pins[i] = dataPin(i);
       }
       return pins;
+    },
+    getPinCoord: function (x, y) {
+      x = x - AVATAR_WIDTH / 2;
+      y = y - AVATAR_HEIGHT - AVATAR_HEIGHT_PLUS;
+      return { 'coordX': Math.floor(x), 'coordY': Math.floor(y) };
+    },
+    getMainPinCoord: function (x, y) {
+      x -= - MAIN_PIN_WIDTH / 2;
+      y += MAIN_PIN_HEIGHT + MAIN_PIN_HEIGHT_PLUS;
+      return { 'coordX': Math.floor(x), 'coordY': Math.floor(y) };
     }
   };
 })();

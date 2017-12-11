@@ -2,15 +2,17 @@
 
 (function () {
   var AFTER_COORD = 'px';
+  var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mainMapPin = document.querySelector('.map__pin--main');
 
   var renderPin = function (pin) {
     var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
+    var realCoord = window.data.getPinCoord(pin.location.x, pin.location.y);
 
-    pinElement.style.left = pin.location.x + AFTER_COORD;
-    pinElement.style.top = pin.location.y + AFTER_COORD;
+    pinElement.style.left = realCoord.coordX + AFTER_COORD;
+    pinElement.style.top = realCoord.coordY + AFTER_COORD;
     pinElement.querySelector('img').src = pin.author.avatar;
 
     return pinElement;
@@ -18,8 +20,7 @@
 
   window.pins = {
     currentPinNumber: 0,
-    add: function (mapPin) {
-      var pins = window.data.getPinsInfo();
+    add: function (mapPin, pins) {
       var pinsFragment = document.createDocumentFragment();
       for (var i = 0; i < pins.length; i++) {
         mapPin[i] = renderPin(pins[i]);
@@ -40,8 +41,21 @@
 
         if ((mapPin[i] === element.parentNode) || (mapPin[i] === element)) {
           window.pins.currentPinNumber = i;
+          console.log(mapPin[i].offsetTop, mapPin[i].offsetLeft);
         }
       }
+    },
+    getMainCoord: function () {
+      var coord = {
+        'x': mainMapPin.getBoundingClientRect().x -
+          map.getBoundingClientRect().x,
+        'y': mainMapPin.getBoundingClientRect().y -
+          map.getBoundingClientRect().y,
+      };
+      return window.data.getMainPinCoord(coord.x, coord.y);
+    },
+    getCoord: function (x, y) {
+      return window.data.getPinCoord(coord.x, coord.y);
     }
   };
 

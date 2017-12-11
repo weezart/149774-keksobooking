@@ -55,8 +55,7 @@
   };
 
   window.cards = {
-    add: function (mapPopup) {
-      var pins = window.data.getPinsInfo();
+    add: function (mapPopup, pins) {
       var cardFragment = document.createDocumentFragment();
       for (var i = 0; i < pins.length; i++) {
         mapPopup[i] = renderCard(pins[i]);
