@@ -3,7 +3,7 @@
 (function () {
   var mapActive = false;
   var mapPin = [];
-  var mapPopap = [];
+  var mapPopup = [];
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mainMapPin = document.querySelector('.map__pin--main');
@@ -20,7 +20,7 @@
     var openPopup = function () {
       if (window.pins.currentPinNumber >= 0) {
         mapPin[window.pins.currentPinNumber].classList.add('map__pin--active');
-        mapPopap[window.pins.currentPinNumber].classList.remove('hidden');
+        mapPopup[window.pins.currentPinNumber].classList.remove('hidden');
         onPopupClickClose();
       }
     };
@@ -28,7 +28,7 @@
     var closePopup = function () {
       if (window.pins.currentPinNumber >= 0) {
         mapPin[window.pins.currentPinNumber].classList.remove('map__pin--active');
-        mapPopap[window.pins.currentPinNumber].classList.add('hidden');
+        mapPopup[window.pins.currentPinNumber].classList.add('hidden');
         window.pins.currentPinNumber = -1;
         document.removeEventListener('keydown', onPopupEscPress);
       }
@@ -36,7 +36,7 @@
 
     var onPopupClickClose = function () {
       document.addEventListener('keydown', onPopupEscPress);
-      var popupClose = mapPopap[window.pins.currentPinNumber]
+      var popupClose = mapPopup[window.pins.currentPinNumber]
           .querySelector('.popup__close');
       popupClose.addEventListener('keydown', onPopupCloseEnterPress);
       popupClose.addEventListener('click', function () {
@@ -55,7 +55,7 @@
       }
 
       window.pins.add(mapPin);
-      window.cards.add(mapPopap);
+      window.cards.add(mapPopup);
     };
 
     mainMapPin.addEventListener('mouseup', function () {
@@ -65,13 +65,13 @@
       }
 
       mapPins.addEventListener('click', function (evt) {
-        window.pins.find(evt.target, mapPin, mapPopap);
+        window.pins.find(evt.target, mapPin, mapPopup);
         openPopup();
       });
 
       mapPins.addEventListener('keydown', function (evt) {
         window.utils.isEnterEvent(evt, function () {
-          window.pins.find(evt.target, mapPin, mapPopap);
+          window.pins.find(evt.target, mapPin, mapPopup);
           openPopup();
         });
       });

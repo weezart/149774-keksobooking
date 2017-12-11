@@ -55,12 +55,12 @@
   };
 
   window.cards = {
-    add: function (mapPopap) {
+    add: function (mapPopup) {
       var pins = window.data.getPinsInfo();
       var cardFragment = document.createDocumentFragment();
       for (var i = 0; i < pins.length; i++) {
-        mapPopap[i] = renderCard(pins[i]);
-        cardFragment.appendChild(mapPopap[i]);
+        mapPopup[i] = renderCard(pins[i]);
+        cardFragment.appendChild(mapPopup[i]);
       }
 
       map.appendChild(cardFragment);
