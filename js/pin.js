@@ -10,7 +10,6 @@
     var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
     var realCoord = window.data.getPinCoord(pin.location.x, pin.location.y);
-
     pinElement.style.left = realCoord.coordX + AFTER_COORD;
     pinElement.style.top = realCoord.coordY + AFTER_COORD;
     pinElement.querySelector('img').src = pin.author.avatar;
@@ -41,7 +40,6 @@
 
         if ((mapPin[i] === element.parentNode) || (mapPin[i] === element)) {
           window.pins.currentPinNumber = i;
-          console.log(mapPin[i].offsetTop, mapPin[i].offsetLeft);
         }
       }
     },

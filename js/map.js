@@ -97,8 +97,20 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-      //console.log(window.pins.getMainCoord());
-      mainMapPin.style.top = (mainMapPin.offsetTop - shift.y) + 'px';
+      var mainPinCoord = window.pins.getMainCoord();
+      if (mainPinCoord.coordY < 100) {
+        startCoords.y = 100;
+        shift.y = 0;
+        mainMapPin.style.top = '20px';
+      } else if (mainPinCoord.coordY > 500) {
+        startCoords.y = 500;
+        shift.y = 0;
+        mainMapPin.style.top = '420px';
+      } else {
+        mainMapPin.style.top = (mainMapPin.offsetTop - shift.y) + 'px';
+      }
+
+      address.value = mainPinCoord.coordX + ', ' + mainPinCoord.coordY;
       mainMapPin.style.left = (mainMapPin.offsetLeft - shift.x) + 'px';
     };
 
