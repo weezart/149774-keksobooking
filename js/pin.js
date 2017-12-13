@@ -2,7 +2,6 @@
 
 (function () {
   var AFTER_COORD = 'px';
-  var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mainMapPin = document.querySelector('.map__pin--main');
 
@@ -43,17 +42,8 @@
         }
       }
     },
-    getMainCoord: function () {
-      var coord = {
-        'x': mainMapPin.getBoundingClientRect().x -
-          map.getBoundingClientRect().x,
-        'y': mainMapPin.getBoundingClientRect().y -
-          map.getBoundingClientRect().y,
-      };
-      return window.data.getMainPinCoord(coord.x, coord.y);
-    },
     getCoord: function (x, y) {
-      return window.data.getPinCoord(coord.x, coord.y);
+      return window.data.getPinCoord(x, y);
     }
   };
 

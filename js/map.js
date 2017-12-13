@@ -78,52 +78,47 @@
     };
 
     mainMapPin.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
+      evt.preventDefault();
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      var startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      var onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+
+        var currentY = mainMapPin.offsetTop - shift.y;
+        var currentX = mainMapPin.offsetLeft - shift.x;
+        var validCoord = window.data.validityCoord(currentX, currentY);
+
+        mainMapPin.style.top = validCoord.y + 'px';
+        mainMapPin.style.left = validCoord.x + 'px';
+
+        var mainPinCoord = window.data.getMainPinCoord(validCoord.x, validCoord.y);
+        window.form.setAddress(mainPinCoord.x + ', ' + mainPinCoord.y);
       };
-      var mainPinCoord = window.pins.getMainCoord();
-      if (mainPinCoord.coordY < 100) {
-        startCoords.y = 100;
-        shift.y = 0;
-        mainMapPin.style.top = '20px';
-      } else if (mainPinCoord.coordY > 500) {
-        startCoords.y = 500;
-        shift.y = 0;
-        mainMapPin.style.top = '420px';
-      } else {
-        mainMapPin.style.top = (mainMapPin.offsetTop - shift.y) + 'px';
-      }
 
-      address.value = mainPinCoord.coordX + ', ' + mainPinCoord.coordY;
-      mainMapPin.style.left = (mainMapPin.offsetLeft - shift.x) + 'px';
-    };
+      var onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
 
     mainMapPin.addEventListener('mouseup', function () {
       if (!mapActive) {

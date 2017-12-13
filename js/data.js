@@ -21,7 +21,7 @@
   var AVATAR_FILE_TYPE = '.png';
   var AVATAR_WIDTH = 46;
   var AVATAR_HEIGHT = 61;
-  var MAIN_PIN_WIDTH = 62;
+  var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 80;
   var MIN_ROOMS = 1;
   var MAX_ROOMS = 5;
@@ -74,12 +74,29 @@
     getPinCoord: function (x, y) {
       x -= AVATAR_WIDTH / 2;
       y -= AVATAR_HEIGHT;
-      return { 'coordX': Math.floor(x), 'coordY': Math.floor(y) };
+      return {'coordX': Math.floor(x), 'coordY': Math.floor(y)};
     },
     getMainPinCoord: function (x, y) {
       x += MAIN_PIN_WIDTH / 2;
       y += MAIN_PIN_HEIGHT;
-      return { 'coordX': Math.floor(x), 'coordY': Math.floor(y) };
+      return {'x': Math.floor(x), 'y': Math.floor(y)};
+    },
+    validityCoord: function (x, y) {
+      var coord = {
+        'x': x,
+        'y': y
+      };
+      if (x < MIN_COORD_X - MAIN_PIN_WIDTH / 2) {
+        coord.x = MIN_COORD_X - MAIN_PIN_WIDTH / 2;
+      } else if (x > MAX_COORD_X - MAIN_PIN_WIDTH / 2) {
+        coord.x = MAX_COORD_X - MAIN_PIN_WIDTH / 2;
+      }
+      if (y < MIN_COORD_Y - MAIN_PIN_HEIGHT) {
+        coord.y = MIN_COORD_Y - MAIN_PIN_HEIGHT;
+      } else if (y > MAX_COORD_Y - MAIN_PIN_HEIGHT) {
+        coord.y = MAX_COORD_Y - MAIN_PIN_HEIGHT;
+      }
+      return coord;
     }
   };
 })();

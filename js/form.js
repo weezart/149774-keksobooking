@@ -5,6 +5,7 @@
   var NO_GUESTS = 0;
   var MIN_GUESTS = 1;
   var DEFAULT_COORD = '595, 375';
+  var inputAnnounceAdress = document.querySelector('#address');
 
   var formHandlersInit = function () {
     inputTitleValidation();
@@ -31,8 +32,13 @@
   };
 
   var inputAddressAction = function () {
-    var inputAnnounceAdress = document.querySelector('#address');
     inputAnnounceAdress.value = DEFAULT_COORD;
+  };
+
+  window.form = {
+    setAddress: function (adress) {
+      inputAnnounceAdress.value = adress;
+    }
   };
 
   var inputPriceType = function () {
