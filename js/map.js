@@ -100,12 +100,12 @@
 
         var currentY = mainMapPin.offsetTop - shift.y;
         var currentX = mainMapPin.offsetLeft - shift.x;
-        var validCoord = window.data.validityCoord(currentX, currentY);
+        var validCoord = window.pins.validateCoord(currentX, currentY);
 
         mainMapPin.style.top = validCoord.y + 'px';
         mainMapPin.style.left = validCoord.x + 'px';
 
-        var mainPinCoord = window.data.getMainPinCoord(validCoord.x, validCoord.y);
+        var mainPinCoord = window.pins.getMainPinCoord(validCoord.x, validCoord.y);
         window.form.setAddress(mainPinCoord.x + ', ' + mainPinCoord.y);
       };
 
