@@ -17,19 +17,16 @@
       window.utils.isEnterEvent(evt, closePopup);
     };
 
-    var openPopup = function () {
+    var openPopup = function (evt) {
+      window.showCard(evt.target, mapPin, mapPopup);
       if (window.pins.currentPinNumber >= 0) {
-        mapPin[window.pins.currentPinNumber].classList.add('map__pin--active');
-        mapPopup[window.pins.currentPinNumber].classList.remove('hidden');
         onPopupClickClose();
       }
     };
 
     var closePopup = function () {
       if (window.pins.currentPinNumber >= 0) {
-        mapPin[window.pins.currentPinNumber].classList.remove('map__pin--active');
-        mapPopup[window.pins.currentPinNumber].classList.add('hidden');
-        window.pins.currentPinNumber = -1;
+        window.closeCard(mapPin, mapPopup);
         document.removeEventListener('keydown', onPopupEscPress);
       }
     };
@@ -65,14 +62,12 @@
       mapActive = true;
 
       mapPins.addEventListener('click', function (evt) {
-        window.pins.find(evt.target, mapPin, mapPopup);
-        openPopup();
+        openPopup(evt);
       });
 
       mapPins.addEventListener('keydown', function (evt) {
         window.utils.isEnterEvent(evt, function () {
-          window.pins.find(evt.target, mapPin, mapPopup);
-          openPopup();
+          openPopup(evt);
         });
       });
     };

@@ -35,21 +35,6 @@
 
       mapPins.insertBefore(pinsFragment, mainMapPin);
     },
-    find: function (element, mapPin, mapPopup) {
-      for (var i = 0; i < mapPin.length; i++) {
-        if (mapPin[i].classList.contains('map__pin--active')) {
-          mapPin[i].classList.remove('map__pin--active');
-        }
-
-        if (!mapPopup[i].classList.contains('hidden')) {
-          mapPopup[i].classList.add('hidden');
-        }
-
-        if ((mapPin[i] === element.parentNode) || (mapPin[i] === element)) {
-          window.pins.currentPinNumber = i;
-        }
-      }
-    },
     getCoord: function (x, y) {
       x -= AVATAR_WIDTH / 2;
       y -= AVATAR_HEIGHT;
