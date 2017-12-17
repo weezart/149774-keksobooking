@@ -2,10 +2,21 @@
 
 (function () {
 
-  var NO_GUESTS = 0;
-  var MIN_GUESTS = 1;
   var DEFAULT_COORD = '595, 375';
+  var TYPES = ['bungalo', 'flat', 'house', 'palace'];
+  var MIN_PRICES = [0, 1000, 5000, 10000];
+  var TIMES = ['12:00', '13:00', '14:00'];
+  var ROOMS = ['1', '2', '3', '100'];
+  var CAPACITIES = [1, [1, 2], [1, 2, 3], 0];
   var inputAnnounceAdress = document.querySelector('#address');
+
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
+  };
 
   var formHandlersInit = function () {
     inputTitleValidation();
@@ -44,12 +55,6 @@
   var inputPriceType = function () {
     var inputAnnouncePrice = document.querySelector('#price');
     var inputAnnounceType = document.querySelector('#type');
-    var PRICE_MAP = {
-      'bungalo': 0,
-      'flat': 1000,
-      'house': 5000,
-      'palace': 10000
-    };
 
     inputAnnouncePrice.addEventListener('invalid', function () {
       if (inputAnnouncePrice.validity.rangeUnderflow) {
@@ -80,39 +85,27 @@
       }
     });
 
-    inputAnnounceType.value = 'bungalo';
-    inputAnnounceType.addEventListener('change', function () {
-      inputAnnouncePrice.min = PRICE_MAP[inputAnnounceType.value];
-    });
+    inputAnnounceType.value = TYPES[0];
+    window.synchronizeFields(inputAnnounceType, inputAnnouncePrice,
+        TYPES, MIN_PRICES, syncValueWithMin);
   };
 
   var inputTimeHandlers = function () {
     var inputAnnounceTimeIn = document.querySelector('#timein');
     var inputAnnounceTimeOut = document.querySelector('#timeout');
-    inputAnnounceTimeIn.addEventListener('change', function () {
-      inputAnnounceTimeOut.value = inputAnnounceTimeIn.value;
-    });
 
-    inputAnnounceTimeOut.addEventListener('change', function () {
-      inputAnnounceTimeIn.value = inputAnnounceTimeOut.value;
-    });
+    window.synchronizeFields(inputAnnounceTimeIn, inputAnnounceTimeOut,
+        TIMES, TIMES, syncValues);
+    window.synchronizeFields(inputAnnounceTimeOut, inputAnnounceTimeIn,
+        TIMES, TIMES, syncValues);
   };
 
   var inputGuestRooms = function () {
     var inputAnnounceRoomNumber = document.querySelector('#room_number');
     var inputAnnounceCapacity = document.querySelector('#capacity');
-
-
-    inputAnnounceCapacity.value = MIN_GUESTS;
-
-    inputAnnounceRoomNumber.addEventListener('change', function () {
-      if (inputAnnounceRoomNumber.value !== '100') {
-        inputAnnounceCapacity.value =
-            window.utils.getRandomNumber(MIN_GUESTS, Number(inputAnnounceRoomNumber.value) + 1);
-      } else {
-        inputAnnounceCapacity.value = NO_GUESTS;
-      }
-    });
+    inputAnnounceCapacity.value = CAPACITIES[0];
+    window.synchronizeFields(inputAnnounceRoomNumber, inputAnnounceCapacity,
+        ROOMS, CAPACITIES, syncValues);
   };
 
   formHandlersInit();
