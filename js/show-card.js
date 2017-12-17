@@ -16,8 +16,10 @@
       }
     }
 
-    mapPin[window.pins.currentPinNumber].classList.add('map__pin--active');
-    mapPopup[window.pins.currentPinNumber].classList.remove('hidden');
+    if (window.pins.currentPinNumber >= 0) {
+      mapPin[window.pins.currentPinNumber].classList.add('map__pin--active');
+      mapPopup[window.pins.currentPinNumber].classList.remove('hidden');
+    }
   };
 
   window.closeCard = function (mapPin, mapPopup) {
