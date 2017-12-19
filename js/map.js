@@ -4,6 +4,7 @@
   var mapActive = false;
   var mapPin = [];
   var mapPopup = [];
+  var pins = [];
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mainMapPin = document.querySelector('.map__pin--main');
@@ -51,22 +52,12 @@
         fieldNoticeForm[i].disabled = false;
       }
 
-      var pins = [];
-      var onSuccessLoad = function (data) {
-        pins = data;
-        window.pins.add(mapPin, pins);
-        window.cards.add(mapPopup, pins);
-        firstActivation();
-        window.showCard(pins[0], mapPin, mapPopup);
-        onPopupClickClose();
-      };
+      window.map.fill(pins);
 
-      window.backend.load(onSuccessLoad, window.backend.onError);
+      mapActive = true;
     };
 
-    var firstActivation = function () {
-      mapActive = true;
-
+    var popupActivation = function () {
       mapPins.addEventListener('click', function (evt) {
         openPopup(evt);
       });
@@ -76,7 +67,24 @@
           openPopup(evt);
         });
       });
-    };
+    }
+
+    window.map = {
+      clean: function () {
+        for(var i = 0; i < mapPin.length; i++) {
+          mapPin[i].remove();
+          mapPopup[i].remove();
+        }
+        mapPin.length = 0;
+        mapPopup.length = 0;
+      },
+      fill: function (data) {
+        window.pins.add(mapPin, data);
+        window.cards.add(mapPopup, data);
+        popupActivation();
+      }
+    }
+
 
     mainMapPin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
@@ -128,6 +136,11 @@
     });
   };
 
+  var onSuccessLoad = function (data) {
+    pins = data;
+    console.log(pins);
+  };
+  window.backend.load(onSuccessLoad, window.backend.onError);
   mapHandlersInit();
 })();
 

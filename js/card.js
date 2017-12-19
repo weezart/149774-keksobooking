@@ -31,6 +31,22 @@
     return featuresFragment;
   };
 
+  var renderImagesList = function (images) {
+    var imagesFragment = document.createDocumentFragment();
+
+    images.forEach(function (image) {
+      var listItem = document.createElement('li');
+      var newImage = document.createElement('img');
+      newImage.src = image;
+      newImage.style.height = '35px';
+      listItem.style.marginRight = '5px';
+      listItem.appendChild(newImage);
+      imagesFragment.appendChild(listItem);
+    });
+
+    return imagesFragment;
+  };
+
   var renderCard = function (pin) {
     var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
@@ -49,7 +65,10 @@
     cardElement.querySelector('.popup__features').textContent = '';
     cardElement.querySelector('.popup__features')
         .appendChild(renderFeaturesList(pin.offer.features));
-    cardElement.querySelector('img').src = pin.author.avatar;
+    cardElement.querySelector('.popup__pictures').textContent = '';
+    cardElement.querySelector('.popup__pictures')
+        .appendChild(renderImagesList(pin.offer.photos));
+    cardElement.querySelector('.popup__avatar').src = pin.author.avatar;
 
     return cardElement;
   };
