@@ -74,11 +74,11 @@
   };
 
   window.cards = {
-    add: function (mapPopup, pins) {
+    add: function (data) {
       var cardFragment = document.createDocumentFragment();
-      for (var i = 0; i < pins.length; i++) {
-        mapPopup[i] = renderCard(pins[i]);
-        cardFragment.appendChild(mapPopup[i]);
+      for (var i = 0; i < data.length; i++) {
+        window.map.cards[i] = renderCard(data[i]);
+        cardFragment.appendChild(window.map.cards[i]);
       }
 
       map.appendChild(cardFragment);

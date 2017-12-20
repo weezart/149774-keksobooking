@@ -1,31 +1,46 @@
 'use strict';
 
 (function () {
-  window.showCard = function (element, mapPin, mapPopup) {
-    for (var i = 0; i < mapPin.length; i++) {
-      if (mapPin[i].classList.contains('map__pin--active')) {
-        mapPin[i].classList.remove('map__pin--active');
-      }
+  var onPopupCloseEnterPress = function (evt) {
+    window.utils.isEnterEvent(evt, closePopup);
+  };
 
-      if (!mapPopup[i].classList.contains('hidden')) {
-        mapPopup[i].classList.add('hidden');
-      }
+  var onPopupEscPress = function (evt) {
+    window.utils.isEscEvent(evt, closePopup);
+  };
 
-      if ((mapPin[i] === element.parentNode) || (mapPin[i] === element)) {
-        window.pins.currentPinNumber = i;
-      }
-    }
-
+  var closePopup = function () {
     if (window.pins.currentPinNumber >= 0) {
-      mapPin[window.pins.currentPinNumber].classList.add('map__pin--active');
-      mapPopup[window.pins.currentPinNumber].classList.remove('hidden');
+      window.closeCard();
+      document.removeEventListener('keydown', onPopupEscPress);
     }
   };
 
-  window.closeCard = function (mapPin, mapPopup) {
-    var i = window.pins.currentPinNumber;
-    mapPin[i].classList.remove('map__pin--active');
-    mapPopup[i].classList.add('hidden');
+  var onPopupClickClose = function () {
+    document.addEventListener('keydown', onPopupEscPress);
+    var popupClose = window.map.cards[window.pins.currentPinNumber]
+        .querySelector('.popup__close');
+    popupClose.addEventListener('keydown', onPopupCloseEnterPress);
+    popupClose.addEventListener('click', function () {
+      closePopup();
+    });
+  };
+
+  window.showCard = function () {
+    if (window.pins.currentPinNumber >= 0) {
+      window.map.pins[window.pins.currentPinNumber]
+        .classList.add('map__pin--active');
+      window.map.cards[window.pins.currentPinNumber]
+          .classList.remove('hidden');
+      onPopupClickClose();
+    }
+  };
+
+  window.closeCard = function () {
+    window.map.pins[window.pins.currentPinNumber]
+        .classList.remove('map__pin--active');
+    window.map.cards[window.pins.currentPinNumber]
+        .classList.add('hidden');
     window.pins.currentPinNumber = -1;
   };
 

@@ -26,14 +26,25 @@
 
   window.pins = {
     currentPinNumber: 0,
-    add: function (mapPin, pins) {
+    add: function (data) {
       var pinsFragment = document.createDocumentFragment();
-      for (var i = 0; i < pins.length; i++) {
-        mapPin[i] = renderPin(pins[i]);
-        pinsFragment.appendChild(mapPin[i]);
+      for (var i = 0; i < data.length; i++) {
+        window.map.pins[i] = renderPin(data[i]);
+        pinsFragment.appendChild(window.map.pins[i]);
       }
 
       mapPins.insertBefore(pinsFragment, mainMapPin);
+    },
+    find: function (element, cb) {
+
+      window.map.pins.forEach(function (pin, i) {
+        if ((pin === element.parentNode) ||
+          (pin === element)) {
+          window.closeCard();
+          window.pins.currentPinNumber = i;
+          cb();
+        }
+      });
     },
     getCoord: function (x, y) {
       x -= AVATAR_WIDTH / 2;
