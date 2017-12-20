@@ -2,9 +2,6 @@
 
 (function () {
   var mapActive = false;
-  var mapPin = [];
-  var mapPopup = [];
-  var pins = [];
   var map = document.querySelector('.map');
   var mapPins = document.querySelector('.map__pins');
   var mainMapPin = document.querySelector('.map__pin--main');
@@ -70,21 +67,25 @@
     }
 
     window.map = {
-      clean: function () {
-        for(var i = 0; i < mapPin.length; i++) {
-          mapPin[i].remove();
-          mapPopup[i].remove();
-        }
-        mapPin.length = 0;
-        mapPopup.length = 0;
-      },
-      fill: function (data) {
-        window.pins.add(mapPin, data);
-        window.cards.add(mapPopup, data);
-        popupActivation();
+      data: [],
+      mapPin: [],
+      mapPopup: []
+    };
+    
+    window.map.clean = function () {
+      for(var i = 0; i < mapPin.length; i++) {
+        window.map.mapPin[i].remove();
+        window.map.mapPopup[i].remove();
       }
-    }
+      window.map.mapPin.length = 0;
+      window.map.mapPopup.length = 0;
+    };
 
+    window.map.fill = function (data) {
+      window.pins.add(window.map.mapPin, data);
+      window.cards.add(window.map.mapPopup, data);
+      popupActivation();
+    }
 
     mainMapPin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
@@ -137,8 +138,7 @@
   };
 
   var onSuccessLoad = function (data) {
-    pins = data;
-    console.log(pins);
+    window.map.data = data;
   };
   window.backend.load(onSuccessLoad, window.backend.onError);
   mapHandlersInit();
