@@ -27,9 +27,10 @@
   };
 
   window.showCard = function () {
-    if (window.pins.currentPinNumber >= 0) {
+    if ((window.pins.currentPinNumber >= 0) &&
+      (window.map.pins[window.pins.currentPinNumber])) {
       window.map.pins[window.pins.currentPinNumber]
-        .classList.add('map__pin--active');
+          .classList.add('map__pin--active');
       window.map.cards[window.pins.currentPinNumber]
           .classList.remove('hidden');
       onPopupClickClose();
@@ -37,11 +38,13 @@
   };
 
   window.closeCard = function () {
-    window.map.pins[window.pins.currentPinNumber]
-        .classList.remove('map__pin--active');
-    window.map.cards[window.pins.currentPinNumber]
-        .classList.add('hidden');
-    window.pins.currentPinNumber = -1;
+    if (window.pins.currentPinNumber >= 0) {
+      window.map.pins[window.pins.currentPinNumber]
+          .classList.remove('map__pin--active');
+      window.map.cards[window.pins.currentPinNumber]
+          .classList.add('hidden');
+      window.pins.currentPinNumber = -1;
+    }
   };
 
 })();

@@ -37,23 +37,23 @@
           openPopup(evt);
         });
       });
-    }
+    };
 
     window.map = {
       data: [],
       pins: [],
       cards: [],
       clean: function () {
-        for(var i = 0; i < pins.length; i++) {
-          pins[i].remove();
-          cards[i].remove();
+        for (var i = 0; i < window.map.pins.length; i++) {
+          window.map.pins[i].remove();
+          window.map.cards[i].remove();
         }
-        pins.length = 0;
-        cards.length = 0;
+        window.map.pins.length = 0;
+        window.map.cards.length = 0;
       },
       fill: function (data) {
-        window.pins.add(data);
-        window.cards.add(data);
+        window.pins.add(data.slice(0, 5));
+        window.cards.add(data.slice(0, 5));
         window.showCard();
       }
     };
@@ -117,5 +117,6 @@
   };
 
   mapHandlersInit();
+  window.filters.init();
 })();
 
