@@ -24,9 +24,9 @@
   var renderPin = function (pin) {
     var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
-    var realCoord = window.pins.getCoord(pin.location.x, pin.location.y);
-    pinElement.style.left = realCoord.coordX + AFTER_COORD;
-    pinElement.style.top = realCoord.coordY + AFTER_COORD;
+    var realIndent = window.pins.getPinIndent(pin.location.x, pin.location.y);
+    pinElement.style.left = realIndent.x + AFTER_COORD;
+    pinElement.style.top = realIndent.y + AFTER_COORD;
     pinElement.querySelector('img').src = pin.author.avatar;
 
     return pinElement;
@@ -54,9 +54,9 @@
         }
       });
     },
-    getCoord: function (x, y) {
-      y += pinShift;
-      return {'coordX': Math.floor(x), 'coordY': Math.floor(y)};
+    getPinIndent: function (x, y) {
+      y -= pinShift;
+      return {'x': Math.floor(x), 'y': Math.floor(y)};
     },
     getMainPinCoord: function (x, y) {
       y += mainPinShift;
