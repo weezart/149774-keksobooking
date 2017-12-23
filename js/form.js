@@ -2,12 +2,19 @@
 
 (function () {
 
-  var DEFAULT_COORD = '595, 375';
+  var DEFAULT_COORD = '600, 423';
   var TYPES = ['bungalo', 'flat', 'house', 'palace'];
-  var MIN_PRICES = [0, 1000, 5000, 10000];
+  var MIN_PRICES = ['0', '1000', '5000', '10000'];
   var TIMES = ['12:00', '13:00', '14:00'];
   var ROOMS = ['1', '2', '3', '100'];
-  var CAPACITIES = [1, [1, 2], [1, 2, 3], 0];
+  var CAPACITIES = [['1'], ['1', '2'], ['1', '2', '3'], ['0']];
+  var CAPACITIES_INFO = {
+    '0': 'не для гостей',
+    '1': 'для 1 гостя',
+    '2': 'для 2 гостей',
+    '3': 'для 3 гостей'
+  };
+
   var inputAnnounceAdress = document.querySelector('#address');
 
   var syncValues = function (element, value) {
@@ -16,6 +23,20 @@
 
   var syncValueWithMin = function (element, value) {
     element.min = value;
+  };
+
+  var syncChoise = function (element, choise) {
+    element.textContent = '';
+    var elementFragment = document.createDocumentFragment();
+
+    choise.forEach(function (option) {
+      var choiseItem = document.createElement('option');
+      choiseItem.value = option;
+      choiseItem.textContent = CAPACITIES_INFO[option];
+      elementFragment.appendChild(choiseItem);
+    });
+
+    element.appendChild(elementFragment);
   };
 
   var formHandlersInit = function () {
@@ -115,9 +136,9 @@
   var inputGuestRooms = function () {
     var inputAnnounceRoomNumber = document.querySelector('#room_number');
     var inputAnnounceCapacity = document.querySelector('#capacity');
-    inputAnnounceCapacity.value = CAPACITIES[0];
+    syncChoise(inputAnnounceCapacity, ['1']);
     window.synchronizeFields(inputAnnounceRoomNumber, inputAnnounceCapacity,
-        ROOMS, CAPACITIES, syncValues);
+        ROOMS, CAPACITIES, syncChoise);
   };
 
   formHandlersInit();

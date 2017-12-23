@@ -47,7 +47,7 @@
 
   window.filters = {
     data: [],
-    filtration: function () {
+    use: function () {
       window.filters.data = window.map.data.slice();
       if (mapType.value !== DEFAULT_VALUE) {
         filterByType(mapType.value);
@@ -63,7 +63,7 @@
       }
     },
     update: function () {
-      window.filters.filtration();
+      window.filters.use();
       window.map.clean();
       window.map.fill(window.filters.data);
     },
