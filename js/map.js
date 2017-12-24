@@ -18,12 +18,11 @@
       map.classList.remove('map--faded');
       noticeForm.classList.remove('notice__form--disabled');
 
-      for (var i = 0; i < fieldNoticeForm.length; i++) {
-        fieldNoticeForm[i].disabled = false;
-      }
+      [].forEach.call(fieldNoticeForm, function (field) {
+        field.disabled = false;
+      });
 
       window.map.fill(window.map.data);
-
       mapActive = true;
     };
 

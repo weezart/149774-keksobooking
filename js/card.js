@@ -76,10 +76,10 @@
   window.cards = {
     add: function (data) {
       var cardFragment = document.createDocumentFragment();
-      for (var i = 0; i < data.length; i++) {
-        window.map.cards[i] = renderCard(data[i]);
+      data.forEach(function (item, i) {
+        window.map.cards[i] = renderCard(item);
         cardFragment.appendChild(window.map.cards[i]);
-      }
+      });
 
       map.appendChild(cardFragment);
     }

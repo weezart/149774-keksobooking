@@ -36,10 +36,10 @@
     currentPinNumber: 0,
     add: function (data) {
       var pinsFragment = document.createDocumentFragment();
-      for (var i = 0; i < data.length; i++) {
-        window.map.pins[i] = renderPin(data[i]);
+      data.forEach(function (item, i) {
+        window.map.pins[i] = renderPin(item);
         pinsFragment.appendChild(window.map.pins[i]);
-      }
+      });
 
       mapPins.insertBefore(pinsFragment, mainMapPin);
     },
