@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var DEFAULT_COORD = '600, 423';
   var TYPES = ['bungalo', 'flat', 'house', 'palace'];
   var MIN_PRICES = ['0', '1000', '5000', '10000'];

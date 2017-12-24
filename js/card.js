@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var map = document.querySelector('.map');
-
   var TYPE_MAP = {
     flat: 'Квартира',
     bungalo: 'Бунгало',
@@ -10,6 +8,8 @@
   };
   var DEFAULT_NAME = 'Дворец';
   var AFTER_PRICE = '&#x20bd;/ночь';
+
+  var map = document.querySelector('.map');
 
   var getTimeText = function (checkin, checkout) {
     return 'Заезд после ' + checkin + ', выезд до ' + checkout;
