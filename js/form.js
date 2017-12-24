@@ -15,6 +15,18 @@
   };
 
   var inputAnnounceAdress = document.querySelector('#address');
+  var inputAvatar = document.querySelector('.notice__photo input');
+  var dropZoneAvatar = document.querySelector('.notice__photo .drop-zone');
+  var previewAvatar = document.querySelector('.notice__preview img');
+  var inputPhoto = document.querySelector('.form__photo-container input');
+  var containerForPhotoes = document.querySelector('.form__photo-container');
+  var dropZonePhoto = containerForPhotoes.querySelector('.drop-zone');
+  var previewPhotoes = containerForPhotoes.querySelector('.upload');
+
+  // Коррекция отображения загруженных фото.
+  containerForPhotoes.style.width = 'auto';
+  dropZonePhoto.style.width = '140px';
+  previewPhotoes.style.flexWrap = 'wrap';
 
   var syncValues = function (element, value) {
     element.value = value;
@@ -40,6 +52,9 @@
 
   var formHandlersInit = function () {
     window.form.setAddress(DEFAULT_COORD);
+    window.chooseImage(inputAvatar, dropZoneAvatar, previewAvatar, chooseAvatar);
+    window.chooseImage(inputPhoto, dropZonePhoto, previewPhotoes, choosePhotos);
+
     validateTitle();
     validatePrice();
     syncTime();
@@ -134,6 +149,18 @@
     syncChoise(inputAnnounceCapacity, ['1']);
     window.synchronizeFields(inputAnnounceRoomNumber, inputAnnounceCapacity,
         ROOMS, CAPACITIES, syncChoise);
+  };
+
+  var chooseAvatar = function (previewElement, src) {
+    previewElement.src = src;
+  };
+
+  var choosePhotos = function (previewElements, src) {
+    var newPhoto = document.createElement('img');
+    newPhoto.src = src;
+    newPhoto.height = '70';
+    newPhoto.style.margin = '0 0 10px 10px';
+    previewElements.appendChild(newPhoto);
   };
 
   formHandlersInit();
