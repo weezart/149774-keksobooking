@@ -12,7 +12,7 @@
       window.pins.find(evt.target, window.showCard);
     };
 
-    var pageActivation = function () {
+    var activatePage = function () {
       var noticeForm = document.querySelector('.notice__form');
       var fieldNoticeForm = noticeForm.querySelectorAll('.notice__form fieldset');
       map.classList.remove('map--faded');
@@ -27,7 +27,7 @@
       mapActive = true;
     };
 
-    var popupActivation = function () {
+    var activatePopup = function () {
       mapPins.addEventListener('click', function (evt) {
         openPopup(evt);
       });
@@ -101,10 +101,10 @@
       document.addEventListener('mouseup', onMouseUp);
     });
 
-    popupActivation();
+    activatePopup();
     mainMapPin.addEventListener('mouseup', function () {
       if (!mapActive) {
-        pageActivation();
+        activatePage();
       }
     });
 

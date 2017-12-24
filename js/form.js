@@ -40,15 +40,15 @@
   };
 
   var formHandlersInit = function () {
-    inputTitleValidation();
-    inputAddressAction();
-    inputPriceType();
-    inputTimeHandlers();
-    inputGuestRooms();
-    formSubmit();
+    window.form.setAddress(DEFAULT_COORD);
+    validateTitle();
+    validatePrice();
+    syncTime();
+    syncGuests();
+    sendForm();
   };
 
-  var formSubmit = function () {
+  var sendForm = function () {
     var form = document.querySelector('.notice__form');
 
     form.addEventListener('submit', function (evt) {
@@ -59,7 +59,7 @@
     });
   };
 
-  var inputTitleValidation = function () {
+  var validateTitle = function () {
     var inputAnnounceTitle = document.querySelector('#title');
     inputAnnounceTitle.addEventListener('input', function (evt) {
       var target = evt.target;
@@ -75,17 +75,13 @@
     });
   };
 
-  var inputAddressAction = function () {
-    inputAnnounceAdress.value = DEFAULT_COORD;
-  };
-
   window.form = {
     setAddress: function (adress) {
       inputAnnounceAdress.value = adress;
     }
   };
 
-  var inputPriceType = function () {
+  var validatePrice = function () {
     var inputAnnouncePrice = document.querySelector('#price');
     var inputAnnounceType = document.querySelector('#type');
 
@@ -123,7 +119,7 @@
         TYPES, MIN_PRICES, syncValueWithMin);
   };
 
-  var inputTimeHandlers = function () {
+  var syncTime = function () {
     var inputAnnounceTimeIn = document.querySelector('#timein');
     var inputAnnounceTimeOut = document.querySelector('#timeout');
 
@@ -133,7 +129,7 @@
         TIMES, TIMES, syncValues);
   };
 
-  var inputGuestRooms = function () {
+  var syncGuests = function () {
     var inputAnnounceRoomNumber = document.querySelector('#room_number');
     var inputAnnounceCapacity = document.querySelector('#capacity');
     syncChoise(inputAnnounceCapacity, ['1']);
