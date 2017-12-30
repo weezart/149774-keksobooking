@@ -38,25 +38,6 @@
       });
     };
 
-    window.map = {
-      data: [],
-      pins: [],
-      cards: [],
-      clean: function () {
-        for (var i = 0; i < window.map.pins.length; i++) {
-          window.map.pins[i].remove();
-          window.map.cards[i].remove();
-        }
-        window.map.pins.length = 0;
-        window.map.cards.length = 0;
-      },
-      fill: function (data) {
-        window.pins.add(data.slice(0, 5));
-        window.cards.add(data.slice(0, 5));
-        window.showCard();
-      }
-    };
-
     mainMapPin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -92,6 +73,8 @@
       var onMouseUp = function (upEvt) {
         upEvt.preventDefault();
 
+        window.utils.debounce(window.map.sortBydistance);
+
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
       };
@@ -113,6 +96,50 @@
 
     window.backend.load(onSuccessLoad, window.backend.onError);
 
+  };
+
+  window.map = {
+    data: [],
+    pins: [],
+    cards: [],
+    clean: function () {
+      for (var i = 0; i < window.map.pins.length; i++) {
+        window.map.pins[i].remove();
+        window.map.cards[i].remove();
+      }
+      window.map.pins.length = 0;
+      window.map.cards.length = 0;
+    },
+    sortBydistance: function () {
+      var tempCoord = {
+        x: mainMapPin.offsetLeft,
+        y: mainMapPin.offsetTop
+      };
+
+      var coord = window.pins.getMainPinCoord(tempCoord.x, tempCoord.y);
+
+      window.map.data.sort(function (first, second) {
+        var firstDistance =
+            window.pins.getDistance(coord.x, coord.y, first.location.x, first.location.y);
+        var secondDistance =
+            window.pins.getDistance(coord.x, coord.y, second.location.x, second.location.y);
+        if (firstDistance > secondDistance) {
+          return 1;
+        } else if (firstDistance < secondDistance) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+
+      window.map.clean();
+      window.map.fill(window.map.data);
+    },
+    fill: function (data) {
+      window.pins.add(data.slice(0, 5));
+      window.cards.add(data.slice(0, 5));
+      window.showCard();
+    }
   };
 
   mapHandlersInit();

@@ -62,6 +62,9 @@
       y += mainPinShift;
       return {'x': Math.floor(x), 'y': Math.floor(y)};
     },
+    getDistance: function (x1, y1, x2, y2) {
+      return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+    },
     validateCoord: function (x, y) {
       var coord = {
         'x': x,
@@ -73,7 +76,6 @@
       } else if (x >= MAX_COORD_X) {
         coord.x = MAX_COORD_X;
       }
-
 
       if (y < MIN_COORD_Y - mainPinShift) {
         coord.y = MIN_COORD_Y - mainPinShift;
